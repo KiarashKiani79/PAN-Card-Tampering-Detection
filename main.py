@@ -32,3 +32,9 @@ tampered = tampered.resize((250,160))
 print("Resized Tampered Image size: " + str(tampered.size))
 original.save("pan_card_tampering/image/tampered.png")
 print("-----------------------------------")
+
+original = cv2.imread("pan_card_tampering/image/original.png")
+tampered = cv2.imread("pan_card_tampering/image/tampered.png")
+
+original_gray = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
+tampered_gray = cv2.cvtColor(tampered, cv2.COLOR_BGR2GRAY)
