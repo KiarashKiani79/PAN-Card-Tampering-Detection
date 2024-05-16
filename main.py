@@ -57,7 +57,11 @@ for c in cnts:
     cv2.rectangle(original, (x, y), (x + w, y + h), (0, 0, 255), 2)
     cv2.rectangle(tampered, (x, y), (x + w, y + h), (0, 0, 255), 2)
     
-#save original / tampered image with contour in the output directory
+# save original / tampered image with contour in the output directory
 #* cv2.imwrite("pan_card_tampering/image/original_contoured.png", original)
-#* cv2.imwrite("pan_card_tampering/image/tampered_contoured.png", tampered)
+#*  cv2.imwrite("pan_card_tampering/image/tampered_contoured.png", tampered)
 
+# Save the diff image with black in the output directory
+#* cv2.imwrite("pan_card_tampering/image/diff.png", diff)
+# Save the threshold image with white in the output directory
+#* cv2.imwrite("pan_card_tampering/image/thresh.png", thresh)
