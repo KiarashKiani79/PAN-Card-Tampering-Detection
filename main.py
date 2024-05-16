@@ -7,8 +7,8 @@ from PIL import Image
 import requests
 
 # Create directories for storing images
-os.makedirs("pan_card_tampering", exist_ok=True)
-os.makedirs("pan_card_tampering/image", exist_ok=True)
+#* os.makedirs("pan_card_tampering", exist_ok=True)
+#* os.makedirs("pan_card_tampering/image", exist_ok=True)
 
 # Open image and display
 original = Image.open(requests.get('https://www.thestatesman.com/wp-content/uploads/2019/07/pan-card.jpg', stream=True).raw)
@@ -22,10 +22,10 @@ tampered = Image.open(requests.get('https://assets1.cleartax-cdn.com/s/img/20170
 
 # Resize image
 original = original.resize((250,160))
-original.save("pan_card_tampering/image/original.png")
-
 tampered = tampered.resize((250,160))
-original.save("pan_card_tampering/image/tampered.png")
+
+#* original.save("pan_card_tampering/image/original.png")
+#* tampered.save("pan_card_tampering/image/tampered.png")
 # ?Resized Origninal Image size: (250, 160)
 # ?Resized Tampered Image size: (250, 160)
 # ?-----------------------------------
@@ -42,7 +42,7 @@ tampered_gray = cv2.cvtColor(tampered, cv2.COLOR_BGR2GRAY)
 (score, diff) = structural_similarity(original_gray, tampered_gray, full=True)
 #scaling the difference map to 8-bit grayscale values.
 diff = (diff * 255).astype("uint8")
-# ?SSIM: 1.0
+# ?SSIM: SSIM: 0.31686135690489126
 # ?diff.shape: (160, 250)
 
 # Calculating threshold and contours 
@@ -56,3 +56,8 @@ for c in cnts:
     (x, y, w, h) = cv2.boundingRect(c)
     cv2.rectangle(original, (x, y), (x + w, y + h), (0, 0, 255), 2)
     cv2.rectangle(tampered, (x, y), (x + w, y + h), (0, 0, 255), 2)
+    
+#save original / tampered image with contour in the output directory
+#* cv2.imwrite("pan_card_tampering/image/original_contoured.png", original)
+#* cv2.imwrite("pan_card_tampering/image/tampered_contoured.png", tampered)
+
