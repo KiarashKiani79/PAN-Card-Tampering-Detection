@@ -14,27 +14,33 @@ os.makedirs("pan_card_tampering/image", exist_ok=True)
 original = Image.open(requests.get('https://www.thestatesman.com/wp-content/uploads/2019/07/pan-card.jpg', stream=True).raw)
 tampered = Image.open(requests.get('https://assets1.cleartax-cdn.com/s/img/20170526124335/Pan4.png', stream=True).raw)
 
-# Print image size
-print("Original Image size: " + str(original.size))
-print("Tampered Image size: " + str(tampered.size))
-
-# Print image format
-print("Original Image format: " + original.format)
-print("Tampered Image format: " + tampered.format)
-print("-----------------------------------")
+#? Original Image size: (1200, 800)
+#? Tampered Image size: (282, 179)
+#? Original Image format: JPEG
+#? Tampered Image format: PNG
+#? -----------------------------------
 
 # Resize image
 original = original.resize((250,160))
-print("Resized Origninal Image size: " + str(original.size))
 original.save("pan_card_tampering/image/original.png")
 
 tampered = tampered.resize((250,160))
-print("Resized Tampered Image size: " + str(tampered.size))
 original.save("pan_card_tampering/image/tampered.png")
-print("-----------------------------------")
+# ?Resized Origninal Image size: (250, 160)
+# ?Resized Tampered Image size: (250, 160)
+# ?-----------------------------------
 
+# load the two input images and convert them to matrices
 original = cv2.imread("pan_card_tampering/image/original.png")
 tampered = cv2.imread("pan_card_tampering/image/tampered.png")
 
+# Convert the images to grayscale
 original_gray = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
 tampered_gray = cv2.cvtColor(tampered, cv2.COLOR_BGR2GRAY)
+
+# Compute the Structural Similarity Index (SSIM) between the two images, ensuring that the difference image is returned
+(score, diff) = structural_similarity(original_gray, tampered_gray, full=True)
+#scaling the difference map to 8-bit grayscale values.
+diff = (diff * 255).astype("uint8")
+# ?SSIM: 1.0
+# ?diff.shape: (160, 250)
